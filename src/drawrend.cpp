@@ -491,9 +491,7 @@ void DrawRend::rasterize_triangle( float x0, float y0,
   //         Hint: Use the fill_color() function like this:
   //             samplebuffer[row][column].fill_color(sub_row, sub_column, color);
   //         You also need to implement get_pixel_color() function to support supersampling.
-  // Part 4: Add barycentric coordinates and use tri->color for shading when available.
-  // Part 5: Fill in the SampleParams struct and pass it to the tri->color function.
-  // Part 6: Pass in correct barycentric differentials to tri->color for mipmapping.
+ 
 
 
 }
