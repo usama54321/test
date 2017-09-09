@@ -16,8 +16,6 @@ You can either download the zipped assignment straight to your computer or clone
 ### What you will turn in
 You will submit your entire project directory in a *zip* file on lms.lums.edu.pk
 
-As you go through the assignment, refer to the write-up guidelines and deliverables section below. It is recommended that you accumulate deliverables into sections in your webpage write-up as you work through the project.
-
 *Note: Do not squander all your hard work on this assignment by converting your png files into jpg or any other format!* Leave the screenshots as they are saved by the `'S'` key in the GUI, otherwise you will introduce artifacts that will ruin your rasterization efforts.
 
 ### Some advise
@@ -62,6 +60,10 @@ The Assignment has 3 parts, worth a total of 100 possible points. Some require o
 * Part 2: Antialiasing triangles ()
 * Part 3: Transforms ()
 
+
+Relevant lectures:
+https://lms.lums.edu.pk/portal/site/e838d91a-c7c2-40b6-b63f-86b802fa5c07/page/8264668a-1767-4682-96c8-cbdb54658c62
+
 There is a fair amount of code in the CGL library, which we will be using for future assignments. The relevant header files for this assignment are *vector2D.h*, *matrix3x3.h*, *color.h*, and *renderer.h*.
 
 Here is a very brief sketch of what happens when you launch `draw`: An `SVGParser` (in *svgparser.\**) reads in the input *svg* file(s), launches a OpenGL `Viewer` containing a `DrawRend` renderer, which enters an infinite loop and waits for input from the mouse and keyboard. DrawRend (*drawrend.\**) contains various callback functions hooked up to these events, but its main job happens inside the `DrawRend::redraw()` function. The high-level drawing work is done by the various `SVGElement` child classes (*svg.\**), which then pass their low-level point, line, and triangle rasterization data back to the three `DrawRend` rasterization functions.
@@ -75,7 +77,8 @@ Here are the files you will be modifying throughout the project:
 
 In addition to modifying these, you will need to reference some of the other source and header files as you work through the project.
 
-### Part 1: Rasterizing single-color triangles (___)
+### Part 1: Rasterizing single-color triangles
+Relevant Lecture: [https://lms.lums.edu.pk/access/content/group/e838d91a-c7c2-40b6-b63f-86b802fa5c07/Lectures/CS452_CG_L2_Rasterization.pdf]
 
 Triangle rasterization is a core function in the graphics pipeline to convert input triangles into framebuffer pixel values. In Part 1, you will implement triangle rasterization using the methods discussed in lecture 2 to fill in the `DrawRend::rasterize_triangle(...)` function in *drawrend.cpp*.
 
@@ -97,7 +100,7 @@ For convenience, here is a list of functions you will need to modify:
 
 
 
-### Part 2: Antialiasing triangles (___)
+### Part 2: Antialiasing triangles
 
 Use supersampling to antialias your triangles. The `sample_rate` parameter in `DrawRend` (adjusted using the `-` and `=` keys) tells you how many samples to use per pixel.
 
@@ -117,7 +120,7 @@ For convenience, here is a list of functions you will need to modify:
 **Extra Credit:** Implement an alternative sampling pattern, such as jittered or low-discrepancy sampling. Create comparison images showing the differences between grid supersampling and your new pattern. Try making a scene that contains aliasing artifacts when rendered using grid supersampling but not when using your pattern. You can also try to implement more efficient storage types for supersampled framebuffers, instead of using one samplebuffer per pixel.
 
 
-### Part 3: Transforms ()
+### Part 3: Transforms
 
 Implement the three transforms in the *transforms.cpp* file according to the [SVG spec](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform). The matrices are 3x3 because they operate in homogeneous coordinates -- you can see how they will be used on instances of `Vector2D` by looking at the way the `*` operator is overloaded in the same file.
 
