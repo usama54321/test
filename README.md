@@ -56,10 +56,11 @@ The Assignment has 3 parts, worth a total of 100 possible points. Some require o
 
 **Breakdown**
 
-* Part 1: Rasterizing single-color triangles ()
-* Part 2: Antialiasing triangles ()
-* Part 3: Transforms ()
-
+* Part 1: Rasterizing single-color triangles
+* Part 2: Antialiasing triangles
+* Part 3: Transforms 
+* Part 4: Barycentric coordinates 
+* Part 5: "Pixel sampling" for texture mapping
 
 Relevant lectures:
 https://lms.lums.edu.pk/portal/site/e838d91a-c7c2-40b6-b63f-86b802fa5c07/page/8264668a-1767-4682-96c8-cbdb54658c62
@@ -99,7 +100,6 @@ For convenience, here is a list of functions you will need to modify:
 **Extra Credit:** Make your triangle rasterizer super fast (e.g., by factoring redundant arithmetic operations out of loops, minimizing memory access, and not checking every sample in the bounding box). Write about the optimizations you used. Use `clock()` to get timing comparisons between your naive and speedy implementations.
 
 
-
 ### Part 2: Antialiasing triangles
 
 Use supersampling to antialias your triangles. The `sample_rate` parameter in `DrawRend` (adjusted using the `-` and `=` keys) tells you how many samples to use per pixel.
@@ -133,6 +133,40 @@ For convenience, here is a list of functions you will need to modify:
 3. `rotate`
 
 **Extra Credit:** Add an extra feature to the GUI. For example, you could make two unused keys to rotate the viewport. Save an example image to demonstrate your feature, and write about how you modified the SVG to NDC and NDC to screen-space matrix stack to implement it.
+
+
+### Part 4: Barycentric coordinates
+
+Familiarize yourself with the `ColorTri` struct in *svg.h*. Modify your implementation of `DrawRend::rasterize_triangle(...)` so that if a non-NULL `Triangle *tri` pointer is passed in, it computes barycentric coordinates of each sample hit and passes them to `tri->color(...)` to request the appropriate color. Note that the barycentric coordinates are stored with type `Vector3D`, so you should use `p_bary[i]` to store the barycentric coordinate corresponding to triangle vertex $P_i$ for $i=0,1,2$.
+
+Implement the `ColorTri::color(...)` function in *svg.cpp* so that it interpolates the color at the point `p_bary`. This function is very simple: it does not need to make use of `p_dx_bary` or `p_dy_bary`, which are for texture mapping. Note that this `color()` function plays the role of a very primitive shader.
+
+For convenience, here is a list of functions you will need to modify:
+
+1. `DrawRend::rasterize_triangle`
+2. `ColorTri::color`
+
+### Part 5: "Pixel sampling" for texture mapping
+
+Familiarize yourself with the `TexTri` struct in *svg.h*. This is the primitive that implements texture mapping. For each vertex, you are given corresponding *uv* coordinates that index into the `Texture` pointed to by `*tex`.
+
+To implement texture mapping, `DrawRend::rasterize_triangle` should fill in the `psm` and `lsm` members of a `SampleParams` struct and pass it to `tri->color(...)`. Then `TexTri::color(...)` should fill in the correct *uv* coordinates in the `SampleParams` struct, and pass it on to `tex->sample(...)`. Then `Texture::sample(...)` should examine the `SampleParams` to determine the correct sampling scheme.
+
+The GUI toggles `DrawRend`'s `PixelSampleMethod` variable `psm` using the `'P'` key. When `psm == P_NEAREST`, you should use nearest-pixel sampling, and when `psm == P_LINEAR`, you should use bilinear sampling.
+
+For now, you can pass in dummy `Vector3D(0,0,0)` values for the `p_dx_bary` and `p_dy_bary` arguments to `tri->color`
+
+For this part, just pass `0` for the `level` parameter of the `sample_nearest` and `sample_bilinear` functions.
+
+For convenience, here is a list of functions you will need to modify:
+
+1. `DrawRend::rasterize_triangle`
+2. `TexTri::color`
+3. `Texture::sample`
+4. `Texture::sample_nearest`
+5. `Texture::sample_bilinear`
+
+### Part 6: Scanlines
 
 Reference:
 Berkeley course - https://gitlab.com/cs184
