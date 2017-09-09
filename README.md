@@ -8,10 +8,26 @@ In this assignment you will implement a simple rasterizer, including features li
 
 ### Getting started
 
-You can either download the zipped assignment straight to your computer or clone it from GitHub using the command
+<b>You can either download the zipped assignment straight to your computer</b> or clone it from GitHub using the command
 
     $ git clone https://github.com/CG452/-PA1_Rasterization-.git
 
+We will be using CMake to build the assignments. If you don't have CMake (version >= 2.8) on your personal computer, you can install it using apt-get on Linux or Macports/Homebrew on OS X. Alternatively, you can download it directly from the CMake website.
+To build the code, start in the folder that GitHub made or that was created when you unzipped the download. Run
+
+    mkdir build; cd build
+
+to create a build directory and enter it, then
+
+    cmake ..
+to have CMake generate the appropriate Makefiles for your system, then
+
+    make 
+to make the executable, which will be deposited in the build directory.
+
+If you are having problems on OS X, you should first try upgrading to the latest version of Xcode and installing command line tools by running the command
+
+    xcode-select --install
 
 ### What you will turn in
 You will submit your entire project directory in a *zip* file on lms.lums.edu.pk
