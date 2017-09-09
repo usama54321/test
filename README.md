@@ -10,17 +10,15 @@ In this assignment you will implement a simple rasterizer, including features li
 
 You can either download the zipped assignment straight to your computer or clone it from GitHub using the command
 
-    $ git clone https://github.com/CGatLUMS/-PA1_Rasterization-.git
+    $ git clone https://github.com/CG452/-PA1_Rasterization-.git
 
 
 ### What you will turn in
-You will submit your entire project directory in a *zip* file on lms.lums.edu.pk . This should include a *website* directory containing a web-ready assignment write-up in a file *index.html*.
+You will submit your entire project directory in a *zip* file on lms.lums.edu.pk
 
 As you go through the assignment, refer to the write-up guidelines and deliverables section below. It is recommended that you accumulate deliverables into sections in your webpage write-up as you work through the project.
 
 *Note: Do not squander all your hard work on this assignment by converting your png files into jpg or any other format!* Leave the screenshots as they are saved by the `'S'` key in the GUI, otherwise you will introduce artifacts that will ruin your rasterization efforts.
-
-<img src="/cs184_sp16_content/article_images/3_7.jpg" width="800px" align="middle"/>
 
 ### Some advise
 Assignments are 40% of the grade. They will give a massive boost to your knowledge and skills. Take them seriously!
@@ -78,7 +76,6 @@ Here are the files you will be modifying throughout the project:
 In addition to modifying these, you will need to reference some of the other source and header files as you work through the project.
 
 ### Part 1: Rasterizing single-color triangles (___)
-[**Relevant lecture: 2**](https://cs184.org/lecture/sampling/slide_021)
 
 Triangle rasterization is a core function in the graphics pipeline to convert input triangles into framebuffer pixel values. In Part 1, you will implement triangle rasterization using the methods discussed in lecture 2 to fill in the `DrawRend::rasterize_triangle(...)` function in *drawrend.cpp*.
 
@@ -101,13 +98,10 @@ For convenience, here is a list of functions you will need to modify:
 
 
 ### Part 2: Antialiasing triangles (___)
-[**Relevant lecture: 3**](https://cs184.org/lecture/antialiasing/slide_095)
 
 Use supersampling to antialias your triangles. The `sample_rate` parameter in `DrawRend` (adjusted using the `-` and `=` keys) tells you how many samples to use per pixel.
 
 The image below shows how sampling four times per pixel produces a better result than just sampling once, since some of the supersampled pixels are partially covered and will yield a smoother edge.
-
-<img src="/uploads/article_images/3_1.jpg" width="500px" align="middle"/>
 
 To do supersampling, each pixel is now divided into `sqrt(sample_rate) * sqrt(sample_rate)` sub-pixels. In other words, you still need to keep track of `height * width` pixels, but now each pixel has `sqrt(sample_rate) * sqrt(sample_rate)` sampled colors. You will need to do point-in-triangle tests at the center of each of these *sub-pixel* squares.
 
@@ -124,13 +118,10 @@ For convenience, here is a list of functions you will need to modify:
 
 
 ### Part 3: Transforms ()
-**Relevant lecture: 4**
 
 Implement the three transforms in the *transforms.cpp* file according to the [SVG spec](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform). The matrices are 3x3 because they operate in homogeneous coordinates -- you can see how they will be used on instances of `Vector2D` by looking at the way the `*` operator is overloaded in the same file.
 
 Once you've implemented these transforms, *svg/transforms/robot.svg* should render correctly, as follows:
-
-<img src="/uploads/article_images/3_.jpg" width="400px" align="middle"/>
 
 For convenience, here is a list of functions you will need to modify:
 
