@@ -8,7 +8,7 @@ In this assignment you will implement a simple rasterizer, including features li
 
 ### Getting started
 
-<b>You can either download the zipped assignment straight to your computer</b> or clone it from GitHub using the command
+<b>You can</b> either <b>download the zipped assignment straight to your computer</b> or clone it from GitHub using the command
 
     $ git clone https://github.com/CG452/-PA1_Rasterization-.git
 
