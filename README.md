@@ -3,7 +3,7 @@ In this assignment you will implement a simple rasterizer, including features li
 ## Logistics
 
 ### Deadline
-* Assignment 1 is due Monday, September 18th at 11:55pm. Assignments which are turned in after 11:55pm will face a penalty of 10% per day policy,up till the 6th late day.
+* Assignment 1 is due Wednesday, September 27th at 11:55pm. Assignments which are turned in after 11:55pm will face a penalty of 10% per day policy,up till the 6th late day.
 
 
 ### Getting started
