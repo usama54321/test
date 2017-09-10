@@ -182,5 +182,9 @@ For convenience, here is a list of functions you will need to modify:
 4. `Texture::sample_nearest`
 5. `Texture::sample_bilinear`
 
+
+### Part 6: "Scanline Algorithm"
+tenative 
+
 Reference:
 Berkeley course - https://gitlab.com/cs184
