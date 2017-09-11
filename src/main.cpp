@@ -20,6 +20,7 @@ using namespace CGL;
 
 #define msg(s) cerr << "[Drawer] " << s << endl;
 //do not mess with this file
+//yes, don't think of it
 
 SVG *loadFile( const char* path ) {
 
