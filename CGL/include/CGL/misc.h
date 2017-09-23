@@ -70,6 +70,17 @@ inline T clamp(T x, T lo, T hi) {
   return std::min(std::max(x, lo), hi);
 }
 
+template<typename T>
+int getIndexOfSmallestElement(T arr[], int size) {
+    int smallestIndex = 0;
+    for (int index = smallestIndex; index < size; index++) {
+        if (arr[smallestIndex] > arr[index]) {
+            smallestIndex = index;
+        }
+    }
+    return smallestIndex;
+}
+
 } // namespace CGL
 
 #endif // CGL_MISCMATH_H
