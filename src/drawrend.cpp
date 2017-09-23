@@ -492,10 +492,15 @@ void DrawRend::rasterize_triangle( float x0, float y0,
   //             samplebuffer[row][column].fill_color(sub_row, sub_column, color);
   //         You also need to implement get_pixel_color() function to support supersampling.
  
-
+// Part 6 Scanline call the following function with correct arguements and parameters 
 
 }
 
+void DrawRend::scanLine(Coord *verticess, int nVertices, Color c){  
+    //Type your code here
 
+  
+
+ }
 
 }
