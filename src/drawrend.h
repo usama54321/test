@@ -11,6 +11,19 @@
 
 namespace CGL {
 
+ typedef struct
+  {
+    int x;  // X coordinate
+    int y;  // Y coordinate
+    int xMax;
+    int yMax;
+    int xMin;
+    int yMin;
+    int invSlope;
+  } Coord;
+
+
+ 
 class DrawRend : public Renderer {
  public:
   DrawRend(std::vector<SVG*> svgs_):
@@ -62,7 +75,7 @@ class DrawRend : public Renderer {
                            float x2, float y2,
                            Color color, Triangle *tri = NULL );
 
-
+void scanLine(Coord *verticess, int nVertices, Color c);
 
 private:
   // Global state variables for SVGs, pixels, and view transforms
