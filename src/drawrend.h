@@ -9,6 +9,8 @@
 #include "GLFW/glfw3.h"
 #include "svg.h"
 
+#include <iostream>
+
 namespace CGL {
 
  typedef struct
@@ -23,7 +25,7 @@ namespace CGL {
   } Coord;
 
 
- 
+
 class DrawRend : public Renderer {
  public:
   DrawRend(std::vector<SVG*> svgs_):
@@ -115,7 +117,10 @@ private:
       PixelColorStorage &p = sub_pixels[i][j];
       // Part 1: Overwrite PixelColorStorage p using Color c.
       //         Pay attention to different data types.
-
+      p[0] = ((c.r * 255));
+      p[1] = ((c.g * 255));
+      p[2] = ((c.b * 255));
+      p[3] = ((c.a * 255));
     }
 
     void fill_pixel(Color c) {
@@ -125,9 +130,22 @@ private:
     }
 
     Color get_pixel_color() {
-      return Color(sub_pixels[0][0].data());
+      // cout << sub_pixels[0][0].data() << endl;
+      // return Color(sub_pixels[0][0].data());
       // Part 2: Implement get_pixel_color() for supersampling.
 
+      Color temp;
+      float sq = pow(samples_per_side,2);
+      for (int i  = 0; i < samples_per_side; i++) {
+        for (int j = 0; j < samples_per_side; j++) {
+          Color a(sub_pixels[i][j].data());
+          temp += a;
+        }
+      }
+
+      temp = temp * (1/sq);
+      temp.a = 1;
+      return temp;
     }
 
     void clear() {

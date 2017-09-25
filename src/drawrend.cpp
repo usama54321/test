@@ -7,6 +7,7 @@
 #include "CGL/lodepng.h"
 #include "texture.h"
 #include <ctime>
+
 using namespace std;
 
 namespace CGL {
@@ -182,7 +183,7 @@ void DrawRend::keyboard_event( int key, int event, unsigned char mods ) {
     case '=':
       if (sample_rate < 16) {
         sample_rate = (int)(sqrt(sample_rate)+1)*(sqrt(sample_rate)+1);
-
+	cout << sample_rate << endl;
         samplebuffer.clear();
         vector<SampleBuffer> samplebuffer_row(width, SampleBuffer(sqrt(sample_rate)));
         for (int i = 0; i < height; ++i)
@@ -475,6 +476,10 @@ void DrawRend::rasterize_line( float x0, float y0,
   }
 }
 
+float areaTri(Vector3D a, Vector3D b, Vector3D c) {
+  return 0.5 * (((a[0] - c[0]) * (b[1] - a[1]) - (a[0] - b[0]) * (c[1] - a[1])));
+}
+
 // Rasterize a triangle.
 void DrawRend::rasterize_triangle( float x0, float y0,
                          float x1, float y1,
@@ -485,21 +490,93 @@ void DrawRend::rasterize_triangle( float x0, float y0,
   //         rasterized points and lines, then start rasterizing triangles.
   //         Use something like this:
   //             samplebuffer[row][column].fill_pixel(color);
-  // Part 2: Add supersampling.
+  //x0 and x1
+  float references_x[3] = {x0, x2, x1};
+  float references_y[3] = {y0,y2,y1};
+  float lines_x[3] = {x1-x0, x0-x2, x2-x1};
+  float lines_y[3] = {y1-y0, y0-y2, y2-y1};
+  Vector2D lines[3];
+
+  for(int i = 0; i < 3; i++) {
+    lines[i].x = -lines_y[i];
+    lines[i].y = lines_x[i];
+  }
+  float min_x = min(x0, x1);
+  min_x = floor(min(min_x, x2));
+  float min_y = min(y0, y1);
+  min_y = floor(min(min_y, y2));
+
+  float max_x = max(x0, x1);
+  max_x = ceil(max(max_x, x2));
+  float max_y = max(y0, y1);
+  max_y = ceil(max(max_y, y2));
+
+    // Part 2: Add supersampling.
   //         You need to write color to each sub-pixel by yourself,
   //         instead of using the fill_pixel() function.
   //         Hint: Use the fill_color() function like this:
   //             samplebuffer[row][column].fill_color(sub_row, sub_column, color);
   //         You also need to implement get_pixel_color() function to support supersampling.
- 
-// Part 6 Scanline call the following function with correct arguements and parameters 
+  int count;
+
+      for(double x = (int) min_x; x <= (int) max_x; x+= (1/sqrt(sample_rate))) {
+        for(double y = (int) min_y; y <= (int) max_y; y+= (1/sqrt(sample_rate))) {
+      bool inside = true;
+      float x_cord = x+ (1/(sqrt(sample_rate) * 2));
+      float y_cord = y + (1/(sqrt(sample_rate) * 2));
+      float alpha;
+      float beta;
+      float gamma;
+      if(!tri) {
+        for(int i = 0; i < 3; i++) {
+          Vector2D point(x_cord - references_x[i], y_cord - references_y[i]);
+          if(dot(point, lines[i]) <= 0)
+           inside = false;
+        }
+      }else {
+        // Matrix3x3 a(x1-x0,x2-x0,0, y1-y0, y2-y0, 0, 0, 0, 1);
+        // Vector3D b(x_cord-x0, y_cord-y0,1);
+        // x_res = a.inv() * b;
+        // cout << x_res << endl;
+        Vector3D tri_0(x0,y0,1);
+        float test;
+        Vector3D tri_1(x1,y1,1);
+        Vector3D tri_2(x2,y2,1);
+        Vector3D point(x_cord, y_cord, 1);
+
+        float total_area = areaTri(tri_0, tri_1, tri_2);
+        float area_abp = areaTri(tri_0, point, tri_2);
+        float area_apc = areaTri(tri_0,tri_1, point);
+        beta = area_abp/total_area;
+        gamma = area_apc/total_area;
+        alpha = 1 - beta - gamma;
+        // cout << alpha << " " << beta << " " << gamma << endl;
+        // cout << x_cord << " " << y_cord << endl;
+        // cin >> test;
+        if(alpha >= 0 && alpha <= 1 && beta >= 0 && beta <= 1 && gamma >= 0 && gamma <= 1) {
+          count++;
+          inside = true;
+        }
+      }
+      if(inside) {
+        if(tri) {
+          color = tri->color(Vector3D(alpha, beta, gamma));
+        }
+        samplebuffer[y][x].fill_color((y - floor(y)) * sqrt(sample_rate), (x-floor(x)) * sqrt(sample_rate), color);
+      }
+    }
+  }
+  cout << count << endl;
+
+
+// Part 6 Scanline call the following function with correct arguements and parameters
 
 }
 
-void DrawRend::scanLine(Coord *verticess, int nVertices, Color c){  
+void DrawRend::scanLine(Coord *verticess, int nVertices, Color c){
     //Type your code here
 
-  
+
 
  }
 

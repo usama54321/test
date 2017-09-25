@@ -45,9 +45,15 @@ void Triangle::draw(DrawRend *dr, Matrix3x3 global_transform) {
  * The p_bary vector contains the barycentric coordinates of the point (x,y).
  * The p_dx/p_dy vectors and SampleParams arguments are ignored here.
  */
-Color ColorTri::color(Vector3D p_bary, Vector3D p_dx_bary, Vector3D p_dy_bary, SampleParams sp) {
+Color ColorTri::color(Vector3D p, Vector3D p_dx_bary, Vector3D p_dy_bary, SampleParams sp) {
   // Part 4: Fill this in.
-  return Color();
+
+  float r = 0, g = 0, b = 0, a = 1;
+  r = p.x * p0_col.r + p.y * p1_col.r + p.z * p2_col.r;
+  g = p.x * p0_col.g + p.y * p1_col.g + p.z * p2_col.g;
+  b = p.x * p0_col.b + p.y * p1_col.b + p.z * p2_col.b;
+  return Color(r,g,b,a);
+  // return p_bary.x * p0_col + p_bary.y * p1_col + p_bary.z * p2_col;
 }
 
 /**
